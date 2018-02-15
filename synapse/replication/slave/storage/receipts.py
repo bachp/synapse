@@ -52,6 +52,8 @@ class SlavedReceiptsStore(ReceiptsWorkerStore, BaseSlavedStore):
         self.get_last_receipt_event_id_for_user.invalidate(
             (user_id, room_id, receipt_type)
         )
+        self.get_users_with_read_receipts_in_room.invalidate((room_id,))
+        self.get_receipts_for_room.invalidate((room_id, receipt_type,))
 
     def process_replication_rows(self, stream_name, token, rows):
         if stream_name == "receipts":
